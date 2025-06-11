@@ -1,31 +1,26 @@
 import express from "express";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
 import cors from "cors";
-import User from "./models/User.js";
+import dotenv from "dotenv";
+import userRoutes from "./routes/userRoutes.js";
+import itemRoutes from "./routes/itemRoutes.js";
+import connectDB from "./initDB/mongoConnect.js";
 
 dotenv.config();
 
+// Initialize express
 const app = express();
+
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch(err => console.error(err));
+// Connect to database
+connectDB();
 
-app.post("/api/save-user", async (req, res) => {
-  const { name, email, photoURL, firebaseUid } = req.body;
-  try {
-    const user = await User.findOneAndUpdate(
-      { email },
-      { name, photoURL, firebaseUid },
-      { new: true, upsert: true }
-    );
-    res.json({ success: true, user });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
+// Routes
+app.use("/api", userRoutes);
+app.use("/api", itemRoutes);
 
-app.listen(5000, () => console.log("Server running on http://localhost:5000"));
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

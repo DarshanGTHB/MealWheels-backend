@@ -1,0 +1,4 @@
+-> in "itemControllers.js ":
+    deleteItem function have 2 txn, use saga for perfect txn execution. (i.e do full txn only when both are perfect committed, other wise revert changes done by a txn)
+
+-> delete photo also along with item deletion
