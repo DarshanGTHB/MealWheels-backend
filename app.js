@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
 import itemRoutes from "./routes/itemRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js";
 import connectDB from "./initDB/mongoConnect.js";
 
 dotenv.config();
@@ -20,6 +21,7 @@ connectDB();
 // Routes
 app.use("/api", userRoutes);
 app.use("/api", itemRoutes);
+app.use("/api", cartRoutes);
 
 
 const PORT = process.env.PORT || 5000;
