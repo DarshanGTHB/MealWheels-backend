@@ -7,7 +7,7 @@ export const addToCart = async (req, res) => {
     const { user_id } = req.user;
     // console.log(req.body);
     const { item_id } = req.body;
-    const userInMongo = await User.findOne({ firebaseUid: user_id });
+    const userInMongo = await User.findById(user_id);
     // console.log(userInMongo.cart);
     if (userInMongo.cart[item_id]) {
       userInMongo.cart[item_id] += 1;
@@ -15,7 +15,7 @@ export const addToCart = async (req, res) => {
       userInMongo.cart[item_id] = 1;
     }
     const cart = userInMongo.cart;
-    await User.findOneAndUpdate({ firebaseUid: user_id }, { cart });
+    await User.findByIdAndUpdate(user_id, { cart });
     res.json({
       success: true,
       message: "Item added to cart successfully",
@@ -31,7 +31,7 @@ export const removeFromCart = async (req, res) => {
     const { user_id } = req.user;
     // console.log(req.body);
     const { item_id } = req.body;
-    const userInMongo = await User.findOne({ firebaseUid: user_id });
+    const userInMongo = await User.findById(user_id);
     // console.log(userInMongo.cart);
 
     const { all } = req.query;
@@ -49,7 +49,7 @@ export const removeFromCart = async (req, res) => {
       }
     }
     const cart = userInMongo.cart;
-    await User.findOneAndUpdate({ firebaseUid: user_id }, { cart });
+    await User.findByIdAndUpdate(user_id, { cart });
     // res.json(userInMongo);
     res.json({
       success: true,
@@ -64,7 +64,7 @@ export const removeFromCart = async (req, res) => {
 export const getCartData = async (req, res) => {
   try {
     const { user_id } = req.user;
-    const userInMongo = await User.findOne({ firebaseUid: user_id });
+    const userInMongo = await User.findById(user_id);
     res.json({
       success: true,
       cart: userInMongo.cart,
