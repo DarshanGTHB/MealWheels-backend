@@ -17,7 +17,7 @@ admin.auth().setCustomUserClaims(uid, { admin: true })
     process.exit(1);
   });
 
-// Step 2: Function to list all admins
+// Step 2: Function to list all admins  
 async function listAdmins(nextPageToken) {
   const result = await admin.auth().listUsers(1000, nextPageToken);
   result.users.forEach(user => {
