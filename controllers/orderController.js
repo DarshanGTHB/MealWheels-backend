@@ -10,7 +10,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 export const placeOrder = async (req, res) => {
   const { items } = req.body;
   // console.log("body : " , items)
-  // console.log(req.user);
+  // console.log(req.user);+
+   
 
   // const items = req.body.items
   const orderItems = items.map((item) => ({
@@ -107,4 +108,34 @@ export const verifyOrder = async (req, res) => {
     } catch (error) {
       res.status(500).json({ success: false, message: "Internal server error" });
     }
+};
+
+
+export const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find().populate({
+      path: "items.item",
+      model: "Item",
+    });
+    res.json({ success: true, orders });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+export const updateOrderStatus = async (req, res) => {
+  const { status } = req.body;
+  const { order_id } = req.params;
+  // console.log(status, order_id);
+  try {
+    const order = await Order.findById(order_id);
+    if (!order) {
+      return res.status(404).json({ success: false, message: "Order not found" });
+    }
+    order.status = status;
+    await order.save();
+    res.json({ success: true, message: "Order status updated successfully", order });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
 };

@@ -27,25 +27,10 @@ export const getUsers = async (req, res) => {
 };
 
 // Get single user by email
-export const getUserByEmail = async (req, res) => {
-  try {
-    const { email } = req.params;
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
-    }
-
-    res.json({ success: true, user });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-};
-
 export const getUserById = async (req, res) => {
   try {
-    const { uid } = req.params;
-    const user = await User.findById(uid);
+    const { id } = req.params;
+    const user = await User.findById(id);
 
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found" });

@@ -21,7 +21,16 @@ const userSchema = new mongoose.Schema({
       ref: "Order",
       default: []
     }
-  ]
+  ],
+  address: {
+    type: Object,
+    default: {},
+  },
+  role :{
+    type: String,
+    enum: ["user", "admin"],
+    default: "user" 
+  }
 }, { _id: false }); // Disable automatic ObjectId
 
 export default mongoose.model("User", userSchema);

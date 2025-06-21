@@ -1,12 +1,12 @@
 import express from "express";
-import { saveUser } from "../controllers/userController.js";
+import { getUserById, saveUser } from "../controllers/userController.js";
 import { getUsers } from "../controllers/userController.js";
-import { getUserByEmail } from "../controllers/userController.js";
+import { verifyAdmin } from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
 router.post("/save-user", saveUser);
-router.get("/users", getUsers);
-router.get("/users/:email", getUserByEmail);
+router.get("/users", verifyAdmin, getUsers);
+router.get("/users/:id", getUserById);
 
-export default router;
+export default router;  

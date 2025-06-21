@@ -1,6 +1,6 @@
 import admin from "./firebase.js";
 
-const uid = "4UldVBjMkkTBqWc5gVayEGwj7ut2";
+const uid = "bPOcTYuKmPStsoZAqEOotCOoln72";
 
 // Step 1: Set custom claim
 admin.auth().setCustomUserClaims(uid, { admin: true })
